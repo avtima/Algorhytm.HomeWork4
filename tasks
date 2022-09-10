@@ -1,0 +1,96 @@
+package Algorhytm;
+
+import java.util.Arrays;
+
+public class HomeWorkLesson4 {
+    public static void main(String[] args) {
+
+        int[] arr = {72, 100, 86, 113, 112, 119, 265, 770, 445, 892};
+        System.out.println(Arrays.toString(arr));
+        mergeSort(arr, arr.length);
+        System.out.println(Arrays.toString(arr));
+        System.out.println("_______________________________");
+
+        char[] a = new char[]{'a', 'b', 'c', 'd', 'e'};
+        char[] b = new char[]{'d', 'g', 'k'};
+        // ad bg ck d e
+        System.out.println(mergeChar(a, b));
+    }
+//    Повторить алгоритм сортировки слиянием, результатом должен стать целочисленный массив
+//    отсортированный в порядке убывания.
+
+    private static void mergeSort(int[] array, int length) {
+        if (length < 2) {
+            return;
+        }
+        int mid = length / 2;
+        int[] left = new int[mid];
+        int[] right = new int[length - mid];
+        for (int i = 0; i < mid; i++) {
+            left[i] = array[i];
+        }
+        for (int i = mid; i < length; i++) {
+            right[i - mid] = array[i];
+        }
+        mergeSort(left, mid);
+        mergeSort(right, length - mid);
+
+        mergeArray(left, right, array);
+    }
+
+    private static void mergeArray(int[] a, int[] b, int[] array) {
+        int indexA = 0;
+        int indexB = 0;
+
+        for (int i = 0; i < array.length; i++) {
+            if (indexA < a.length && indexB < b.length) {
+                int elementA = a[indexA];
+                int elementB = b[indexB];
+                if (elementA > elementB) {
+                    array[i] = elementA;
+                    indexA++;
+                } else {
+                    array[i] = elementB;
+                    indexB++;
+                }
+                continue;
+            }
+            if (indexA < a.length) {
+                array[i] = a[indexA];
+                indexA++;
+            }
+            if (indexB < b.length) {
+                array[i] = b[indexB];
+                indexB++;
+            }
+        }
+    }
+
+    // Даны две строки , пример abcde и dgk, слить строки в одну используя только один проход в цикле,
+// элементы должны сливаться через 1, те первый элемент с первой строки, второй со второй, третий с первой и тд.
+// Если какая-то строка больше чем другая, то остаток переписываем в результат.
+// Метод аналогичен слиянию массивов в merge sort, но без учета сравнения элементов.
+
+    private static char[] mergeChar(char[] a, char[] b) {
+
+        char[] c = new char[a.length + b.length];
+        int indexA = 0;
+        int indexB = 0;
+
+        for (int i = 0; i < c.length; i++) {
+            if (indexA < a.length && indexB < b.length) {
+                c[i] = a[i];
+            } else {
+                c[i] = b[i];
+            }
+            continue;
+
+            if (a.length > b.length) {
+                c[i] = a[a.length - indexA];
+            }
+            if (indexB < b.length) {
+                c[i] = b[b.length - indexB];
+            }
+        }
+        return c;
+    }
